@@ -6,17 +6,17 @@
 /*   By: jasuh <jasuh@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 18:02:30 by jasuh             #+#    #+#             */
-/*   Updated: 2022/06/26 18:09:48 by jasuh            ###   ########.fr       */
+/*   Updated: 2022/06/26 18:15:59 by jasuh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
 #define MAX_STACK_SIZE 100
-#define MAX_STRING 100
 
+typedef	int	element;
 typedef struct {
-	int	stack[MAX_STACK_SIZE];
+	element	stack[MAX_STACK_SIZE];
 	int	top;
 } STACK_TYPE;
 
@@ -59,7 +59,7 @@ int	pop(STACK_TYPE *arr)
 	}
 	else
 	{
-		return arr->stack[arr->top--];
+		return arr->stack[(arr->top)--];
 	}
 }
 
