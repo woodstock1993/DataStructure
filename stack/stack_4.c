@@ -6,7 +6,7 @@
 /*   By: sjh <sjh@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 18:37:15 by jasuh             #+#    #+#             */
-/*   Updated: 2022/06/27 15:26:37 by sjh              ###   ########.fr       */
+/*   Updated: 2022/06/27 15:38:57 by sjh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,37 +101,24 @@ int check_matching(const char *pt) // 값을 변경하려면 에러 발생
 
     for(int i = 0; i < n; i++)
     {
-        switch(pt[i]) 
+        ch = pt[i];
+        switch(ch) 
         {
-            case '[' :
-                push(&s, '[');
+            case '[' : case '{' : case '(' :
+                push(&s, ch);
                 break;
-            case '{' :
-                push(&s, '{');
+            case ']' : case '}' : case ')':
+                if (is_empty(&s)) return 0;
+                else
+                {
+                    open_ch = pop(&s);
+                    if ((open_ch == '(' && ch != ')') ||
+                        (open_ch == '[' && ch != ']') ||
+                        (open_ch == '{' && ch != '}')) {
+                        return 0;
+                    }
+                }
                 break;
-            case '(' :
-                push(&s, '(');
-                break;
-            case ']' :
-                if ((!(is_empty(&s))) && peek(&s) == '[')
-                {
-                    pop(&s);
-                    break;
-                }
-            case '}' :
-                if ((!(is_empty(&s))) && peek(&s) == '{')
-                {
-                    pop(&s);
-                    break;
-                }
-            case ')' :
-                if ((!(is_empty(&s))) && peek(&s) == '(')
-                {
-                    pop(&s);
-                    break;
-                }
-            default :
-                continue;                
         }
     }
     if (s.top == -1)
