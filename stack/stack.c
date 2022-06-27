@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   stack.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jasuh <jasuh@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/26 21:16:07 by jasuh             #+#    #+#             */
+/*   Updated: 2022/06/26 21:16:19 by jasuh            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <stdlib.h>
 #define MAX_STACK_SIZE 100
 #define MAX_STRING 100
 
 typedef struct {
-	int	student_no;
+	int		student_no;
 	char 	name[MAX_STRING];
 	char 	address[MAX_STRING];
 } element;

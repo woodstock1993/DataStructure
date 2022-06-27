@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stack_3.c                                          :+:      :+:    :+:   */
+/*   stack_4.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sjh <sjh@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 18:37:15 by jasuh             #+#    #+#             */
-/*   Updated: 2022/06/26 20:58:47 by sjh              ###   ########.fr       */
+/*   Updated: 2022/06/27 15:26:37 by sjh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-typedef int element;
+typedef char element;
 
 typedef struct
 {
@@ -70,8 +71,11 @@ element pop(stack_type *arr)
 		exit(1);
 	}
 	else
-	{
-		return arr->data[(arr->top)--];
+	{   
+        char temp = (char)arr->data[(arr->top)];
+        arr->data[(arr->top)] = 0;
+        (arr->top)--;
+		return temp;
 	}
 }
 
@@ -88,18 +92,60 @@ element peek(stack_type *arr)
 	}
 }
 
-int main(void)
+int check_matching(const char *pt) // 값을 변경하려면 에러 발생
 {
-	stack_type arr;
-	init_stack(&arr);
-	push(&arr, 1);
-	push(&arr, 2);
-	push(&arr, 3);
+    stack_type s;
+    char ch, open_ch;
+    int i, n = strlen(pt);
+    init_stack(&s);
 
-	printf("%d\n", pop(&arr)); // 3
-	printf("%d\n", pop(&arr)); // 2
-	printf("%d\n", pop(&arr)); // 1
-	printf("%d\n", pop(&arr)); // 비어있음
-	free(arr.data);
+    for(int i = 0; i < n; i++)
+    {
+        switch(pt[i]) 
+        {
+            case '[' :
+                push(&s, '[');
+                break;
+            case '{' :
+                push(&s, '{');
+                break;
+            case '(' :
+                push(&s, '(');
+                break;
+            case ']' :
+                if ((!(is_empty(&s))) && peek(&s) == '[')
+                {
+                    pop(&s);
+                    break;
+                }
+            case '}' :
+                if ((!(is_empty(&s))) && peek(&s) == '{')
+                {
+                    pop(&s);
+                    break;
+                }
+            case ')' :
+                if ((!(is_empty(&s))) && peek(&s) == '(')
+                {
+                    pop(&s);
+                    break;
+                }
+            default :
+                continue;                
+        }
+    }
+    if (s.top == -1)
+        return 1;
+    else
+        return 0;
+}
+
+int main(void)
+{   
+    char arr[] = "{([])}{(([[]]))}()";
+    if (check_matching(arr) == 1)
+        printf("%s, 괄호검사 성공\n", arr);
+    else
+        printf("%s, 괄호검사 실패\n", arr);
 	return (0);
 }
